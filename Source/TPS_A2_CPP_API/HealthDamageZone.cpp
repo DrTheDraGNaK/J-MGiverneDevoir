@@ -54,17 +54,4 @@ void AHealthDamageZone::OnActorEndOverlap(UPrimitiveComponent* HitComp, AActor* 
 	GetWorldTimerManager().ClearTimer(Handle);
 }
 
-void AHealthDamageZone::OnActorBeginOverlap(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherIndex, bool bFromSweep, const FHitResult& SweepResult)
-{
-	Character = Cast<ATPS_A2_CPP_APICharacter>(OtherActor);
 
-	FTimerDelegate timerDelegate;
-	timerDelegate.BindUFunction(Character, FName("life"), LevelOfDamage);
-	GetWorldTimerManager().SetTimer(Handle, timerDelegate, 1, true);
-}
-
-
-void AHealthDamageZone::OnActorEndOverlap(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherIndex)
-{
-	GetWorldTimerManager().ClearTimer(Handle);
-}
