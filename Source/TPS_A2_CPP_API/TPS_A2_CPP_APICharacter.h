@@ -59,6 +59,9 @@ public:
 	UPROPERTY(editAnywhere, Category = Vie)
 		int vieMax = 100;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = OnFire)
+		FVector ProjectileSpawner;
+
 
 protected:
 

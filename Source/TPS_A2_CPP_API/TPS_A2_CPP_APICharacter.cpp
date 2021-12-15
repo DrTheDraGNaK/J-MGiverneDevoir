@@ -143,28 +143,27 @@ void ATPS_A2_CPP_APICharacter::SetupPlayerInputComponent(class UInputComponent* 
 void ATPS_A2_CPP_APICharacter::OnFire()
 
 {
-	// try and fire a projectile
-	if (ProjectileClass != nullptr)
-	{
-		UWorld* const World = GetWorld();
-		if (World != nullptr)
-		{		
-			
-				const FRotator SpawnRotation = GetControlRotation();
-				// MuzzleOffset is in camera space, so transform it to world space before offsetting from the character location to find the final muzzle position
-				const FVector SpawnLocation = ((FP_MuzzleLocation != nullptr) ? FP_MuzzleLocation->GetComponentLocation() : GetActorLocation()) + SpawnRotation.RotateVector(GunOffset);
+	FVector CameraLocation;
+	FRotator CameraRotation;
+	GetActorEyesViewPoint(CameraLocation, CameraRotation);
 
-				//Set Spawn Collision Handling Override
-				FActorSpawnParameters ActorSpawnParams;
-				ActorSpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButDontSpawnIfColliding;
+	// Set Spawn in front of the camera
+	ProjectileSpawner.Set(70.0f, 0.0f, 30.0f);
+	FVector Spawner = CameraLocation + FTransform(CameraRotation).TransformVector(ProjectileSpawner);
 
-				// spawn the projectile at the muzzle
-				World->SpawnActor<AMyPaintBall>(ProjectileClass, SpawnLocation, SpawnRotation, ActorSpawnParams);
-			
-		}
-	}
+	// Skew the aim to be slightly upwards.
+	FRotator Rotation = CameraRotation;
+	Rotation.Pitch += 10.0f;
+
+	// Spawn the projectile in the World at the Spawner.
+	UWorld* World = GetWorld();
+
+	FActorSpawnParameters Parameters;
+	Parameters.Owner = this;
+	Parameters.Instigator = GetInstigator();
 
 
+	AMyPaintBall* Projectile = World->SpawnActor<AMyPaintBall>(AMyPaintBall::StaticClass(), Spawner, Rotation, Parameters);
 }
 
 
