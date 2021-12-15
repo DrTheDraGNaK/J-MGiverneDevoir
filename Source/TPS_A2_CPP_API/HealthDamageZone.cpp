@@ -3,6 +3,7 @@
 
 #include "HealthDamageZone.h"
 #include "Components/BoxComponent.h"
+#include "TPS_A2_CPP_APICharacter.h"
 
 // Sets default values
 AHealthDamageZone::AHealthDamageZone()
@@ -13,14 +14,23 @@ AHealthDamageZone::AHealthDamageZone()
 	CollisionMesh = CreateDefaultSubobject<UBoxComponent>(FName("CollisionMesh"));
 	SetRootComponent(CollisionMesh);
 
+	
+
 }
 
 // Called when the game starts or when spawned
 void AHealthDamageZone::BeginPlay()
 {
 	Super::BeginPlay();
-	/*CollisionMesh->OnComponentBeginOverlap.AddDynamic(this, &AHealthDamageZone::OnOverlapBegin);
-	CollisionMesh->OnComponentEndOverlap.AddDynamic(this, &AHealthDamageZone::OnOverlapEnd);*/
+	CollisionMesh->OnComponentBeginOverlap.AddDynamic(this, &AHealthDamageZone::OnActorBeginOverlap);
+	CollisionMesh->OnComponentEndOverlap.AddDynamic(this, &AHealthDamageZone::OnActorEndOverlap);
+
+	if (isDamage)
+		LevelOfDamage = -5;
+	else
+		LevelOfDamage = 5;
+
+	
 }
 
 // Called every frame
@@ -30,8 +40,31 @@ void AHealthDamageZone::Tick(float DeltaTime)
 
 }
 
-//void AHealthDamageZone::OnOverlapBegin() 
-//{
-//
-//}
+void AHealthDamageZone::OnActorBeginOverlap(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherIndex, bool bFromSweep, const FHitResult& SweepResult)
+{
+	Character = Cast<ATPS_A2_CPP_APICharacter>(OtherActor);
 
+	FTimerDelegate timerDelegate;
+	timerDelegate.BindUFunction(Character, FName("life"), LevelOfDamage);
+	GetWorldTimerManager().SetTimer(Handle, timerDelegate, 1, true);
+}
+
+void AHealthDamageZone::OnActorEndOverlap(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherIndex)
+{
+	GetWorldTimerManager().ClearTimer(Handle);
+}
+
+void AHealthDamageZone::OnActorBeginOverlap(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherIndex, bool bFromSweep, const FHitResult& SweepResult)
+{
+	Character = Cast<ATPS_A2_CPP_APICharacter>(OtherActor);
+
+	FTimerDelegate timerDelegate;
+	timerDelegate.BindUFunction(Character, FName("life"), LevelOfDamage);
+	GetWorldTimerManager().SetTimer(Handle, timerDelegate, 1, true);
+}
+
+
+void AHealthDamageZone::OnActorEndOverlap(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherIndex)
+{
+	GetWorldTimerManager().ClearTimer(Handle);
+}

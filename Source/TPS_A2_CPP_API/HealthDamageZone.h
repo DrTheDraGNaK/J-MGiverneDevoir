@@ -19,7 +19,19 @@ public:
 	class UBoxComponent* CollisionMesh;
 
 	UPROPERTY()
-	bool IsRange;
+		class ATPS_A2_CPP_APICharacter* Character;
+
+	UPROPERTY(EditAnywhere)
+		bool isDamage;
+
+	UPROPERTY()
+		FTimerHandle Handle;
+
+
+	UPROPERTY()
+		int LevelOfDamage;
+
+
 
 
 
@@ -27,14 +39,17 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
+	UPROPERTY()
+		float time;
+
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
-	/*UFUNCTION()
-	void OnActorBeginOverlap();
+	UFUNCTION()
+		void OnActorBeginOverlap(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherIndex, bool bFromSweep, const FHitResult& SweepResult);
 
 	UFUNCTION()
-		void OnActorEndOverlap();*/
+		void OnActorEndOverlap(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherIndex);
 
 };

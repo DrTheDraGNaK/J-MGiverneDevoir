@@ -53,11 +53,11 @@ public:
 	UPROPERTY(editAnywhere, Category = Speed)
 		float RunSpeed = 300.f;
 
-	/*UPROPERTY(editAnywhere, Category = Vie)
-		int vie = 50;
+	UPROPERTY(editAnywhere, Category = Vie)
+		int vie = 100;
 
 	UPROPERTY(editAnywhere, Category = Vie)
-		int vieMax = 100;*/
+		int vieMax = 100;
 
 
 protected:
@@ -83,11 +83,7 @@ protected:
 	UFUNCTION()
 		void OnStopRun();
 
-	/*UFUNCTION()
-		void SetLife();
-
-	UFUNCTION()
-		void GetLife();*/
+	
 
 	/** Resets HMD orientation in VR. */
 	void OnResetVR();
@@ -139,6 +135,11 @@ public:
 		class USoundBase* DeathSound;*/
 
 
+	UFUNCTION()
+		int GetLife();
+
+	UFUNCTION()
+		void Life(int LifeUpdate);
 
 
 	
@@ -162,6 +163,10 @@ private:
 
 	UPROPERTY(EditAnywhere, Category = "Pickup")
 		ASkeletalMeshActor* wielded;
+
+
+
+
 
 
 

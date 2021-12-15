@@ -170,6 +170,21 @@ void ATPS_A2_CPP_APICharacter::OnFire()
 
 
 
+void ATPS_A2_CPP_APICharacter::Life(int LifeUpdate)
+{
+	if (vie + LifeUpdate <= vieMax && vie + LifeUpdate >= 0)
+		vie += LifeUpdate;
+
+	GLog->Log("Ta vie actuel espece de gros caca : " + FString::FromInt(GetLife()));
+}
+
+int ATPS_A2_CPP_APICharacter::GetLife()
+{
+	return vie;
+}
+
+
+
 
 
 
