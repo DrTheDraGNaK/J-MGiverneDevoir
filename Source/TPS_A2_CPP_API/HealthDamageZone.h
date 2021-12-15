@@ -24,6 +24,9 @@ public:
 	UPROPERTY(EditAnywhere)
 		bool isDamage;
 
+	UPROPERTY(EditAnywhere)
+		bool isLava;
+
 	UPROPERTY()
 		FTimerHandle Handle;
 

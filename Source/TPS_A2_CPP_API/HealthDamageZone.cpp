@@ -27,6 +27,8 @@ void AHealthDamageZone::BeginPlay()
 
 	if (isDamage)
 		LevelOfDamage = -5;
+	else if (isLava)
+		LevelOfDamage = -100;
 	else
 		LevelOfDamage = 5;
 
