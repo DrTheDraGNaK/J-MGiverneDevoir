@@ -48,7 +48,7 @@ void AHealthDamageZone::OnActorBeginOverlap(UPrimitiveComponent* HitComp, AActor
 
 	FTimerDelegate timerDelegate;
 	timerDelegate.BindUFunction(Character, FName("life"), LevelOfDamage);
-	GetWorldTimerManager().SetTimer(Handle, timerDelegate, 1, true);
+	GetWorldTimerManager().SetTimer(Handle, timerDelegate, 0.3, true);
 }
 
 void AHealthDamageZone::OnActorEndOverlap(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherIndex)

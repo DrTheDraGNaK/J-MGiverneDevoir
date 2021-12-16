@@ -114,7 +114,7 @@ void ATPS_A2_CPP_APICharacter::SetupPlayerInputComponent(class UInputComponent* 
 
 
 	// Bind fire event
-	PlayerInputComponent->BindAction("Fire", IE_Pressed, this, &ATPS_A2_CPP_APICharacter::OnFire);
+	PlayerInputComponent->BindAction("Fire", IE_Pressed, this, &ATPS_A2_CPP_APICharacter::Fire);
 
 
 	PlayerInputComponent->BindAxis("MoveForward", this, &ATPS_A2_CPP_APICharacter::MoveForward);
@@ -140,7 +140,7 @@ void ATPS_A2_CPP_APICharacter::SetupPlayerInputComponent(class UInputComponent* 
 	InputComponent->BindAction("Pickup", IE_Pressed, this, &ATPS_A2_CPP_APICharacter::Interact);
 }
 
-void ATPS_A2_CPP_APICharacter::OnFire()
+void ATPS_A2_CPP_APICharacter::Fire()
 
 {
 	FVector CameraLocation;
@@ -158,12 +158,16 @@ void ATPS_A2_CPP_APICharacter::OnFire()
 	// Spawn the projectile in the World at the Spawner.
 	UWorld* World = GetWorld();
 
-	FActorSpawnParameters Parameters;
-	Parameters.Owner = this;
-	Parameters.Instigator = GetInstigator();
+	FActorSpawnParameters SpawnParameters;
+	SpawnParameters.Owner = this;
+	SpawnParameters.Instigator = GetInstigator();
 
 
-	AMyPaintBall* Projectile = World->SpawnActor<AMyPaintBall>(AMyPaintBall::StaticClass(), Spawner, Rotation, Parameters);
+	AMyPaintBall* Projectile = World->SpawnActor<AMyPaintBall>(AMyPaintBall::StaticClass(), Spawner, Rotation, SpawnParameters);
+
+
+
+
 }
 
 
@@ -175,6 +179,14 @@ void ATPS_A2_CPP_APICharacter::Life(int LifeUpdate)
 		vie += LifeUpdate;
 
 	GLog->Log("Ta vie actuel espece de gros caca : " + FString::FromInt(GetLife()));
+
+	if (vie + LifeUpdate <= 0)
+		UGameplayStatics::OpenLevel(this, FName(*GetWorld()->GetName()));
+
+	//il faut mettre le truc du reload de level la ---------------------------------------------------------------------------------
+
+
+
 }
 
 int ATPS_A2_CPP_APICharacter::GetLife()

@@ -27,8 +27,7 @@ public:
 	UFUNCTION()
 		void OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit); //la
 
-	/** Returns CollisionComp subobject **/
-	USphereComponent* GetCollisionComp() const { return CollisionComp; }
-	/** Returns ProjectileMovement subobject **///
+	
+	USphereComponent* GetCollisionComp() const { return CollisionComp; }	
 	UProjectileMovementComponent* GetProjectileMovement() const { return ProjectileMovement; }//
 };
