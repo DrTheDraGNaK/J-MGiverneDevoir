@@ -26,7 +26,7 @@ AMyPaintBall::AMyPaintBall()
 	ProjectileMovement->bRotationFollowsVelocity = true;
 	ProjectileMovement->bShouldBounce = false;
 
-	InitialLifeSpan = 6.0f;
+	InitialLifeSpan = 3.0f;
 }
 
 void AMyPaintBall::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)

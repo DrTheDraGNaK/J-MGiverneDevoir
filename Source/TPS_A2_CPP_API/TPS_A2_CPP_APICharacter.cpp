@@ -64,38 +64,15 @@ ATPS_A2_CPP_APICharacter::ATPS_A2_CPP_APICharacter()
 	collectionRange->AttachTo(RootComponent);
 	collectionRange->SetSphereRadius(100.0f);
 
+
+	ProjectileSpawner = CreateDefaultSubobject<USceneComponent>(TEXT("Boulequipart"));
+	ProjectileSpawner->SetRelativeLocation(FVector(80.0f, 30.0f, 0.0f));
+
+	
+
 }
 
-//void ATPS_A2_CPP_APICharacter::Death()
-//{
-//	if (!bIsDead) 
-//	{
-//		const FVector Location = GetActorLocation();
-//
-//		UWorld* World = GetWorld();
-//		if (World)
-//		{
-//			bIsDead = true;
-//			DisableInput(nullptr);
-//
-//			if (DeathParticleSystem)
-//			{
-//				UGameplayStatics::SpawnEmitterAtLocation(World, DeathParticleSystem, Location);
-//			}
-//
-//			if (DeathSound)
-//			{
-//				UGameplayStatics::PlaySoundAtLocation(World, DeathSound, Location);
-//			}
-//
-//			GetMesh()->SetVisibility(false);
-//
-//			World->GetTimerManager().SetTimer(RestartTimerHandle, this, &ATPS_A2_CPP_APICharacter::OnDeath, 1.f);
-//		}
-//	}
-//	
-//
-//}
+
 
 
 //////////////////////////////////////////////////////////////////////////
@@ -143,29 +120,29 @@ void ATPS_A2_CPP_APICharacter::SetupPlayerInputComponent(class UInputComponent* 
 void ATPS_A2_CPP_APICharacter::Fire()
 
 {
-	FVector CameraLocation;
-	FRotator CameraRotation;
-	GetActorEyesViewPoint(CameraLocation, CameraRotation);
+	//FVector CameraLocation;
+	//FRotator CameraRotation;
+	//GetActorEyesViewPoint(CameraLocation, CameraRotation);
 
-	// Set Spawn in front of the camera
-	ProjectileSpawner.Set(70.0f, 0.0f, 30.0f);
-	FVector Spawner = CameraLocation + FTransform(CameraRotation).TransformVector(ProjectileSpawner);
+	//// Set Spawn in front of the camera
+	//ProjectileSpawner.Set(70.0f, 0.0f, 30.0f);
+	//FVector Spawner = CameraLocation + FTransform(CameraRotation).TransformVector(ProjectileSpawner);
 
-	// Skew the aim to be slightly upwards.
-	FRotator Rotation = CameraRotation;
-	Rotation.Pitch += 10.0f;
+	//// Skew the aim to be slightly upwards.
+	//FRotator Rotation = CameraRotation;
+	//Rotation.Pitch += 10.0f;
 
-	// Spawn the projectile in the World at the Spawner.
-	UWorld* World = GetWorld();
+	//// Spawn the projectile in the World at the Spawner.
+	//UWorld* World = GetWorld();
 
-	FActorSpawnParameters SpawnParameters;
-	SpawnParameters.Owner = this;
-	SpawnParameters.Instigator = GetInstigator();
-
-
-	AMyPaintBall* Projectile = World->SpawnActor<AMyPaintBall>(AMyPaintBall::StaticClass(), Spawner, Rotation, SpawnParameters);
+	//FActorSpawnParameters SpawnParameters;
+	//SpawnParameters.Owner = this;
+	//SpawnParameters.Instigator = GetInstigator();
 
 
+	//AMyPaintBall* Projectile = World->SpawnActor<AMyPaintBall>(AMyPaintBall::StaticClass(), Spawner, Rotation, SpawnParameters);
+
+	AMyPaintBall* bullet = GetWorld()->SpawnActor<AMyPaintBall>(Bullet, ProjectileSpawner->GetComponentLocation(), FollowCamera->GetComponentRotation());
 
 
 }
@@ -223,18 +200,7 @@ void ATPS_A2_CPP_APICharacter::Interact()
 
 
 
-//void ATPS_A2_CPP_APICharacter::OnDeath()
-//{
-//	bIsDead = false;
-//
-//	if (RestartTimerHandle.IsValid())
-//	{
-//		GetWorldTimerManager().ClearTimer(RestartTimerHandle);
-//	}
-//
-//	
-//	UKismetSystemLibrary::ExecuteConsoleCommand(GetWorld(), TEXT("RestartLevel"));
-//}
+
 
 void ATPS_A2_CPP_APICharacter::BeginPlay()
 {

@@ -7,6 +7,7 @@
 #include "Components/SphereComponent.h"
 #include "Animation/SkeletalMeshActor.h"
 #include "MyPickUp.h"
+#include "MyPaintBall.h"
 #include "TPS_A2_CPP_APICharacter.generated.h"
 
 
@@ -26,9 +27,7 @@ class ATPS_A2_CPP_APICharacter : public ACharacter
 	class UCameraComponent* FollowCamera;
 	
 
-	/** Location on gun mesh where projectiles should spawn. */
-	UPROPERTY(VisibleDefaultsOnly, Category = Mesh)                              //la
-		USceneComponent* FP_MuzzleLocation;
+	
 
 
 
@@ -36,8 +35,7 @@ class ATPS_A2_CPP_APICharacter : public ACharacter
 public:
 	ATPS_A2_CPP_APICharacter();
 
-	/*UFUNCTION(BlueprintCallable)
-		void Death();*/
+	
 
 	/** Base turn rate, in deg/sec. Other scaling may affect final turn rate. */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Camera)
@@ -59,22 +57,17 @@ public:
 	UPROPERTY(editAnywhere, Category = Vie)
 		int vieMax = 100;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Fire)
-		FVector ProjectileSpawner;
+	UPROPERTY(EditAnywhere, Category = Fire)
+		USceneComponent* ProjectileSpawner;
 
+	UPROPERTY(EditDefaultsOnly, Category = Fire)
+		TSubclassOf<AMyPaintBall> Bullet;
 
 protected:
 
 	void Fire();
 
-	/*UFUNCTION()
-		void OnDeath();*/
-
-	/*UPROPERTY()
-		FTimerHandle RestartTimerHandle;
-
-	UPROPERTY()
-		bool bIsDead = false;*/
+	
 
 
 	void BeginPlay() override;
@@ -122,20 +115,14 @@ protected:
 
 public:
 
-	/** Projectile class to spawn */
-	UPROPERTY(EditDefaultsOnly, Category = Projectile)
-		TSubclassOf<class AMyPaintBall> ProjectileClass;
+	///** Projectile class to spawn */
+	//UPROPERTY(EditDefaultsOnly, Category = Projectile)
+	//	TSubclassOf<class AMyPaintBall> ProjectileClass;
 
-	/** Gun muzzle's offset from the characters location */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
-		FVector GunOffset;
+	
 
 
-	/*UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Assets")
-		class UParticleSystem* DeathParticleSystem;
-
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Assets")
-		class USoundBase* DeathSound;*/
+	
 
 
 	UFUNCTION()
