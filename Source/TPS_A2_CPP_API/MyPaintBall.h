@@ -4,6 +4,8 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "Engine/DecalActor.h"
+#include "Components/DecalComponent.h"
 #include "MyPaintBall.generated.h"
 
 class USphereComponent;                                         //la
@@ -19,6 +21,9 @@ class TPS_A2_CPP_API_API AMyPaintBall : public AActor
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Movement, meta = (AllowPrivateAccess = "true")) //la
 		UProjectileMovementComponent* ProjectileMovement;  //la
+
+protected:
+	virtual void BeginPlay() override;
 	
 public:	
 	// Sets default values for this actor's properties
@@ -27,6 +32,8 @@ public:
 	UFUNCTION()
 		void OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit); //la
 
+	UPROPERTY(EditAnywhere)
+		UMaterialInterface* M_Splatters;
 	
 	USphereComponent* GetCollisionComp() const { return CollisionComp; }	
 	UProjectileMovementComponent* GetProjectileMovement() const { return ProjectileMovement; }//

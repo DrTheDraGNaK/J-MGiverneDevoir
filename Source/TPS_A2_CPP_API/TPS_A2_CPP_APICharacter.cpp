@@ -64,6 +64,8 @@ ATPS_A2_CPP_APICharacter::ATPS_A2_CPP_APICharacter()
 	collectionRange->AttachTo(RootComponent);
 	collectionRange->SetSphereRadius(100.0f);
 
+	
+	JumpMaxCount = 2;
 
 	ProjectileSpawner = CreateDefaultSubobject<USceneComponent>(TEXT("Boulequipart"));
 	ProjectileSpawner->SetRelativeLocation(FVector(80.0f, 30.0f, 0.0f));
@@ -119,31 +121,9 @@ void ATPS_A2_CPP_APICharacter::SetupPlayerInputComponent(class UInputComponent* 
 
 void ATPS_A2_CPP_APICharacter::Fire()
 
-{
-	//FVector CameraLocation;
-	//FRotator CameraRotation;
-	//GetActorEyesViewPoint(CameraLocation, CameraRotation);
-
-	//// Set Spawn in front of the camera
-	//ProjectileSpawner.Set(70.0f, 0.0f, 30.0f);
-	//FVector Spawner = CameraLocation + FTransform(CameraRotation).TransformVector(ProjectileSpawner);
-
-	//// Skew the aim to be slightly upwards.
-	//FRotator Rotation = CameraRotation;
-	//Rotation.Pitch += 10.0f;
-
-	//// Spawn the projectile in the World at the Spawner.
-	//UWorld* World = GetWorld();
-
-	//FActorSpawnParameters SpawnParameters;
-	//SpawnParameters.Owner = this;
-	//SpawnParameters.Instigator = GetInstigator();
-
-
-	//AMyPaintBall* Projectile = World->SpawnActor<AMyPaintBall>(AMyPaintBall::StaticClass(), Spawner, Rotation, SpawnParameters);
+{	
 
 	AMyPaintBall* bullet = GetWorld()->SpawnActor<AMyPaintBall>(Bullet, ProjectileSpawner->GetComponentLocation(), FollowCamera->GetComponentRotation());
-
 
 }
 
