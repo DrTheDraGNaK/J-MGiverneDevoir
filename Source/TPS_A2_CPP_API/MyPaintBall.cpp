@@ -38,38 +38,32 @@ AMyPaintBall::AMyPaintBall()
 void AMyPaintBall::BeginPlay()
 {
 	Super::BeginPlay();
-	//CollisionComp->OnComponentBeginOverlap.AddDynamic(this, &AMyPaintBall::OnBeginOverlap);
+	CollisionComp->OnComponentBeginOverlap.AddDynamic(this, &AMyPaintBall::OnBeginOverlap);
 }
 
 
 void AMyPaintBall::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
 {
-	// Only add impulse and destroy projectile if we hit a physics
+	FRotator rotation = GetActorRotation() + FRotator(-90, 0, 0);
+
+	ADecalActor* decal = GetWorld()->SpawnActor<ADecalActor>(GetActorLocation(), rotation);
+	decal->SetDecalMaterial(M_Splatters);
+	decal->GetDecal()->DecalSize = FVector(50, 50, 50);
+	decal->GetDecal()->SetFadeOut(1, 3, true);
+
+	Destroy();
+}
+
+
+void AMyPaintBall::OnBeginOverlap(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherIndex, bool bFromSweep, const FHitResult& SweepResult)
+{
 	if ((OtherActor != nullptr) && (OtherActor != this) && (OtherComp != nullptr) && OtherComp->IsSimulatingPhysics())
 	{
 		OtherComp->AddImpulseAtLocation(GetVelocity() * 100.0f, GetActorLocation());
 
-		FRotator rotation = GetActorRotation() + FRotator(-90, 0, 0);
+		
 
-		ADecalActor* decal = GetWorld()->SpawnActor<ADecalActor>(GetActorLocation(), rotation);
-		decal->SetDecalMaterial(M_Splatters);
-		decal->GetDecal()->DecalSize = FVector(100, 100, 100);
-		decal->GetDecal()->SetFadeOut(1, 3, true);
-
-
-		Destroy();
 	}
+
+	
 }
-
-
-//void AMyPaintBall::OnBeginOverlap(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherIndex, bool bFromSweep, const FHitResult& SweepResult)
-//{
-//	FRotator rotation = GetActorRotation() + FRotator(-90, 0, 0);
-//
-//	ADecalActor* decal = GetWorld()->SpawnActor<ADecalActor>(GetActorLocation(), rotation);
-//	decal->SetDecalMaterial(M_Splatters);
-//	decal->GetDecal()->DecalSize = FVector(100, 100, 100);
-//	decal->GetDecal()->SetFadeOut(1, 3, true);
-//
-//	Destroy();
-//}
