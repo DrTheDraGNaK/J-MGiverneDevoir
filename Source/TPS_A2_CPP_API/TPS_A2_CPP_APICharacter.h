@@ -45,17 +45,17 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Camera)
 	float BaseLookUpRate;
 
-	UPROPERTY(editAnywhere, Category=Speed)
+	UPROPERTY(EditAnywhere, Category=Speed)
 		float WalkSpeed = 50.f;
 
-	UPROPERTY(editAnywhere, Category = Speed)
+	UPROPERTY(EditAnywhere, Category = Speed)
 		float RunSpeed = 300.f;
 
-	UPROPERTY(editAnywhere, Category = Vie)
+	UPROPERTY(EditAnywhere, Category = Vie, BlueprintReadWrite)
 		int vie = 100;
 
-	UPROPERTY(editAnywhere, Category = Vie)
-		int vieMax = 100;
+	UPROPERTY(EditAnywhere, Category = Vie, BlueprintReadWrite)
+		 int vieMax = 100;
 
 	UPROPERTY(EditAnywhere, Category = Fire)
 		USceneComponent* ProjectileSpawner;
@@ -128,7 +128,7 @@ public:
 	UFUNCTION()
 		int GetLife();
 
-	UFUNCTION()
+	UFUNCTION(BlueprintCallable)
 		void Life(int LifeUpdate);
 
 
